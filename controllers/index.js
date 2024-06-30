@@ -1,15 +1,15 @@
 const { Github: GithubServiсe } = require('../services/github.service');
-class Github {
 
-    // query {owner,repo, type }
+class Github {
+ // query {owner,repo, type }
  static async getTopContributors(req, res) {
   try {
-    const owner = req.query.owner;
-    const repo = req.query.repo;
-    const type = req.query.type;
+   const { owner } = req.query;
+   const { repo } = req.query;
+   const { type } = req.query;
 
    if (!owner || !repos || !type) {
-        return res.status(400).json({ err: 'owner, repo , type request field' });
+    return res.status(400).json({ err: 'owner, repo , type request field' });
    }
 
    const response = await GithubService.getTopRepositories({ owner, repo, typu });

@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-const Fastq = require("fastq");
-const { Github: GithubАdapter } = require("../adapter/github.adapter");
+const Fastq = require('fastq');
+const { Github: GithubАdapter } = require('../adapter/github.adapter');
 
 // TODO refactor add constants
-const STATISTICS_TYPE = { year: "year", all: "all" };
+const STATISTICS_TYPE = { year: 'year', all: 'all' };
 
 class Github {
  async getTopRepositories({ repo, owner, type }) {
@@ -22,6 +22,7 @@ class Github {
   const userContributors = await this.#getUserContributors({ repo, owner });
   return this.getRepoContributedToLastYear({ repo, owner, userContributors });
  }
+
  async getTopRepositoriesAll({ repo, owner }) {
   const contributors = await this.getUserContributors({ repo, owner });
   const topDuplicates = await this.#getRepoContributedToLastYear({
@@ -76,6 +77,7 @@ class Github {
 
   return topDuplicatesUSerinRepo;
  }
+
  async #getRepoContributedToLastYear({ repo, count = 5, userContributors }) {
   const countsRepository = {};
   const queueGetuserRepo = Fastq.promise(async (task) => {
@@ -84,8 +86,8 @@ class Github {
    repos.forEach((obj) => {
     const url = new URL(obj.url);
 
-    const owner = url.pathname.split("/")[1];
-    const repositoryName = url.pathname.split("/")[2];
+    const owner = url.pathname.split('/')[1];
+    const repositoryName = url.pathname.split('/')[2];
     // TODO refactor
     if (repositoryName != repo) {
      const fullName = `${owner}_${repositoryName}`;
@@ -124,9 +126,10 @@ class Github {
 
   return topDuplicates;
  }
+
  async #getUserRepo(username) {
   try {
-   let querys = `
+   const querys = `
       {
         user(login: "${usernam}") {
           repositoriesContributedTo(first: 99) {
@@ -145,20 +148,21 @@ class Github {
    throw new Error(`Failed to fetch repositories for ${username}: ${error.message}`);
   }
  }
+
  async #getUserContributors({ repo, owner }) {
-  let page = 1;
+  const page = 1;
   const contributors = [];
 
   while (true) {
    let page = 0;
-   const data = await GithubAdapter.getContributors({ page, repo, owner, type: "all" });
+   const data = await GithubAdapter.getContributors({ page, repo, owner, type: 'all' });
    contributors.push(...data);
    if (data.length == 0 || data.length < 100) break;
    page++;
   }
 
   return contributors.filter((_user) => {
-   return _user.type == "User";
+   return _user.type == 'User';
   });
  }
 }
