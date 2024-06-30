@@ -4,8 +4,8 @@ services:
     build: .
     volumes:
       - ./:/app
-    ports:
-      - '3000:${PORTS}'
+    PORT:
+      - '3000:${PORT}'
     env_file:
       - .env
     # command: pm2-docker start server.js -i max
