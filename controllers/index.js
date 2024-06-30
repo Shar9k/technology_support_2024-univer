@@ -1,7 +1,7 @@
 const { Github: GithubService } = require('../services/github.service');
 
 class Github {
-  static async getTopRepositories(req, res) {
+  static async getTopContributors(req, res) {
     try {
       const { owner, repo, type } = req.query;
 
